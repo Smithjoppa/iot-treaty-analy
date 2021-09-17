@@ -1,4 +1,6 @@
 import _ from "lodash";
+import { BaseGet, RequestType } from "../../types";
+import SerialPortBean from "../../types/serial";
 import ModbusParser from "../parse-crc/modbus-parser";
 const SerialPort = require('serialport')
 

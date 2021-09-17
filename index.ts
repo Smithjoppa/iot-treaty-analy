@@ -2,6 +2,7 @@ import _ from 'lodash';
 import CrcUtil from './utils';
 import IotSerialPort from './package/hooks/iot-serial-port';
 import IotSocket from './package/hooks/iot-socket';
+import SerialPortBean from './types/serial';
 
 class IotConnect {
   private type: IotSerialPort | IotSocket
