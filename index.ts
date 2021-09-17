@@ -2,7 +2,7 @@ import _ from 'lodash';
 import CrcUtil from './utils';
 import IotSerialPort from './package/hooks/iot-serial-port';
 import IotSocket from './package/hooks/iot-socket';
-import SerialPortBean from './types/serial';
+import SerialPortBean from './package/hooks/serial';
 
 class IotConnect {
   private type: IotSerialPort | IotSocket
@@ -145,4 +145,4 @@ function initSocket(host: string, prot: number): IotSocket {
   let socket = IotSocket.getInstance("Socket")
   return socket
 }
-export default { IotConnect }
+export default IotConnect

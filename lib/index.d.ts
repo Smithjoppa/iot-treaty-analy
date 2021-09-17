@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import IotSerialPort from './package/hooks/iot-serial-port';
 import IotSocket from './package/hooks/iot-socket';
-import SerialPortBean from './types/serial';
+import SerialPortBean from './package/hooks/serial';
 declare class IotConnect {
     private type;
     private path;
@@ -17,7 +17,4 @@ declare class IotConnect {
     close(): void;
     initStartChannel(): void;
 }
-declare const _default: {
-    IotConnect: typeof IotConnect;
-};
-export default _default;
+export default IotConnect;
