@@ -1,4 +1,6 @@
 /// <reference types="node" />
+import { BaseGet, RequestType } from "../../types";
+import SerialPortBean from "../../types/serial";
 import ModbusParser from "../parse-crc/modbus-parser";
 export default class IotSerialPort extends BaseGet {
     requestType?: RequestType;

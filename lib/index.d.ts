@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import IotSerialPort from './package/hooks/iot-serial-port';
 import IotSocket from './package/hooks/iot-socket';
+import SerialPortBean from './types/serial';
 declare class IotConnect {
     private type;
     private path;
