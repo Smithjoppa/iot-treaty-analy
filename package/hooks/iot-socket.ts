@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import net, { Server } from 'net'
-import { BaseGet, RequestType } from '../../types';
+import { BaseGet, RequestType } from '.';
 export default class IotSocket extends BaseGet {
   requestType: RequestType;
   server: net.Server | undefined | null;
