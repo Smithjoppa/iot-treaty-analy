@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es2017", "es7", "es6", "dom"],
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["**/*.ts", "**/*.d.ts", "src/**/*.tsx", "types/**/*.d.ts", "types/**/*.ts"],
+  "exclude": ["node_modules", "lib"]
+}
