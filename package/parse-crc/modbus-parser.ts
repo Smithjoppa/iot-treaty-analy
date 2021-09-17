@@ -1,6 +1,6 @@
 import CrcUtil from "../../utils/index";
+import { Transform } from "stream";
 
-const { Transform } = require('stream')
 
 /**
  * options : needMBHeader 是否显示modbus协议头，默认true
@@ -8,6 +8,9 @@ const { Transform } = require('stream')
 export default class ModbusParser extends Transform {
   crcUtil: CrcUtil
   listenLoopSize: number = 0
+  needMBHeader: boolean;
+  buffer!: Buffer | any;
+  delimiters!: Array<number>;
   constructor(options: any) {
     super(options)
     this.crcUtil = new CrcUtil();
@@ -22,9 +25,9 @@ export default class ModbusParser extends Transform {
     this.resetModuleNum(options.moduleNum)
   }
 
-  resetModuleNum(moduleNum) {
+  resetModuleNum(moduleNum: Array<number>) {
     this.delimiters = []
-    moduleNum.forEach(item => {
+    moduleNum.forEach((item: number) => {
       this.delimiters.push(item)
     })
 
@@ -32,7 +35,7 @@ export default class ModbusParser extends Transform {
     this.listenLoopSize = this.delimiters.length
   }
 
-  _transform(chunk, encoding, cb) {
+  _transform(chunk: Buffer, _encoding: any, cb: () => void) {
     const isModbusStart = this.checkIsModbusStart(chunk) // 判断是不是起点
     if (isModbusStart) {
       this.buffer = Buffer.alloc(0)
@@ -53,7 +56,7 @@ export default class ModbusParser extends Transform {
   checkIsModbusStart(chunk: Buffer) {
     let isStart = false
     for (let i = 0; i < this.listenLoopSize; i++) {
-      const delimiter: Uint8Array = this.delimiters[i]
+      const delimiter: number | any = this.delimiters[i]
       isStart = chunk.indexOf(Buffer.from(delimiter)) === 0
       if (isStart) {
         return isStart
@@ -62,7 +65,7 @@ export default class ModbusParser extends Transform {
     return isStart
   }
 
-  _flush(cb) {
+  _flush(cb: () => void) {
     this.push(this.buffer)
     this.buffer = Buffer.alloc(0)
     cb()
