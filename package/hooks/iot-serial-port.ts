@@ -23,7 +23,7 @@ export default class IotSerialPort {
     this.serialport = new SerialPort(path, options)
     return new Promise((resolve, reject) => {
       this.serialport?.on('open', (msg: any | ArrayBuffer) => {
-        resolve(msg)
+        resolve({ code: 0, msg: 'open' })
       })
       this.serialport?.on('error', (err: any) => {
         reject(err)

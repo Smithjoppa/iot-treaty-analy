@@ -34,7 +34,7 @@ class IotConnect {
     this.port = port
   }
   write(msg: Array<number>): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.msgQueue.write(msg, (buf: Buffer) => {
         resolve(buf)
       })
@@ -47,9 +47,9 @@ class IotConnect {
       throw new Error(error + "")
     }
   }
-  initStartChannel() {
+  async initStartChannel() {
     if (this.type === typeModel.IotSerialPort) {
-      this.channel = initSerialPort(this.path, this.options)
+      this.channel = await initSerialPort(this.path, this.options)
       if (_.isEmpty(this.channel.parse)) {
         throw new Error("this serial parse is undefined")
       }
@@ -129,7 +129,7 @@ class MsgQueue {
     this._channel.write(next[0])
   }
 }
-function initSerialPort(path: string, options: SerialPortBean.OpenOptions): IotSerialPort {
+function initSerialPort(path: string, options: SerialPortBean.OpenOptions): Promise<IotSerialPort> {
   if (_.isEmpty(path)) {
     throw new Error("serial port path is undefined")
   }
@@ -137,8 +137,12 @@ function initSerialPort(path: string, options: SerialPortBean.OpenOptions): IotS
     throw new Error("options is undefined")
   }
   let SerialPort = IotSerialPort.getInstance("SerialPort")
-  SerialPort.connect(path, options)
-  return SerialPort
+  return new Promise(() => {
+    SerialPort.connect(path, options).then((msg) => {
+      console.log(msg);
+      return SerialPort
+    })
+  });
 }
 function initSocket(host: string, prot: number): IotSocket {
   if (_.isEmpty(host)) {
