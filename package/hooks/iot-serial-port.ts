@@ -4,14 +4,15 @@ import SerialPortBean from "../../types/serial";
 import ModbusParser from "../parse-crc/modbus-parser";
 const SerialPort = require('serialport')
 
-export default class IotSerialPort extends BaseGet {
-  requestType?: RequestType;
+export default class IotSerialPort {
+  requestType?: RequestType | any;
   option?: SerialPortBean.OpenOptions
   serialport?: any | undefined
-  instance?: IotSerialPort;
+  static instance?: IotSerialPort;
   parse: ModbusParser | undefined;
-  constructor(requestType: RequestType) {
-    super(requestType)
+  constructor() {
+    // super(requestType)
+    let requestType = "SerialPort"
     this.requestType = requestType
   }
   connect(path: string, options?: SerialPortBean.OpenOptions): Promise<any> {
@@ -74,7 +75,7 @@ export default class IotSerialPort extends BaseGet {
   }
   public static getInstance(requestType: RequestType): IotSerialPort {
     if (!IotSerialPort.instance) {
-      IotSerialPort.instance = new IotSerialPort(requestType);
+      IotSerialPort.instance = new IotSerialPort();
     }
     return IotSerialPort.instance;
   }

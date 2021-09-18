@@ -1,14 +1,14 @@
 /// <reference types="node" />
-import { BaseGet, RequestType } from '.';
+import { RequestType } from '.';
 import SerialPortBean from "../../types/serial";
 import ModbusParser from "../parse-crc/modbus-parser";
-export default class IotSerialPort extends BaseGet {
-    requestType?: RequestType;
+export default class IotSerialPort {
+    requestType?: RequestType | any;
     option?: SerialPortBean.OpenOptions;
     serialport?: any | undefined;
-    instance?: IotSerialPort;
+    static instance?: IotSerialPort;
     parse: ModbusParser | undefined;
-    constructor(requestType: RequestType);
+    constructor();
     connect(path: string, options?: SerialPortBean.OpenOptions): Promise<any>;
     close(): Promise<any>;
     write(msg?: Array<number>): Promise<Buffer>;
