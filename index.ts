@@ -4,8 +4,13 @@ import IotSerialPort from './package/hooks/iot-serial-port';
 import IotSocket from './package/hooks/iot-socket';
 import SerialPortBean from './package/hooks/serial';
 
+enum typeModel {
+  IotSerialPort,
+  IotSocket
+}
+
 class IotConnect {
-  private type: IotSerialPort | IotSocket
+  private type: typeModel
 
   private path!: string;
   private options!: SerialPortBean.OpenOptions;
@@ -17,7 +22,7 @@ class IotConnect {
 
   private msgQueue!: MsgQueue
 
-  constructor(type: IotSerialPort | IotSocket) {
+  constructor(type: typeModel) {
     this.type = type
   }
   configSerial(path: string, options: SerialPortBean.OpenOptions): void {
@@ -43,7 +48,7 @@ class IotConnect {
     }
   }
   initStartChannel() {
-    if (this.type instanceof IotSerialPort) {
+    if (this.type === typeModel.IotSerialPort) {
       this.channel = initSerialPort(this.path, this.options)
       if (_.isEmpty(this.channel.parse)) {
         throw new Error("this serial parse is undefined")
@@ -51,7 +56,7 @@ class IotConnect {
       // Set the serial port channel to be sent
       this.msgQueue = MsgQueue.getInstance(this.channel.parse, this.channel)
     }
-    if (this.type instanceof IotSocket) {
+    if (this.type === typeModel.IotSocket) {
       this.channel = initSocket(this.host, this.port)
       //Set the net channel to be sent
       this.msgQueue = MsgQueue.getInstance(this.channel.server, this.channel)
